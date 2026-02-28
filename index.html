@@ -1,11 +1,10 @@
 <!--
   ============================================================
-  LETTERBOXD REVIEWS CAROUSEL — Squarespace Code Block
+  LETTERBOXD REVIEWS CAROUSEL
   
-  SETUP: Replace the SHEET_URL value below with your own.
-  To get your Sheet URL:
-    1. In Google Sheets: File > Share > Publish to web
-    2. Choose your "Reviews" sheet, CSV format, click Publish
+  Replace YOUR_PUBLISHED_GOOGLE_SHEET_CSV_URL_HERE below:
+    1. Google Sheets > File > Share > Publish to web
+    2. Select "Reviews" sheet + CSV format > Publish
     3. Copy the URL and paste it below
   ============================================================
 -->
@@ -32,11 +31,9 @@
 </div>
 
 <style>
-  /* ---- Root Variables ---- */
   #lb-reviews-section {
     --lb-green: #00C030;
     --lb-orange: #FF8000;
-    --lb-bg: transparent;
     --lb-text: #1a1a1a;
     --lb-subtext: #555;
     --lb-card-bg: #ffffff;
@@ -48,11 +45,10 @@
     padding: 48px 0 56px;
     width: 100%;
     box-sizing: border-box;
-    background: var(--lb-bg);
+    background: transparent;
     font-family: var(--lb-font-body);
   }
 
-  /* ---- Header ---- */
   .lb-header {
     text-align: center;
     margin-bottom: 36px;
@@ -60,7 +56,6 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    flex-wrap: wrap;
   }
   .lb-logo-text {
     font-family: var(--lb-font-ui);
@@ -69,13 +64,8 @@
     text-transform: uppercase;
     color: var(--lb-subtext);
   }
-  .lb-logo {
-    height: 22px;
-    width: auto;
-    color: var(--lb-text);
-  }
+  .lb-logo { height: 22px; width: auto; color: var(--lb-text); }
 
-  /* ---- Carousel wrapper ---- */
   .lb-carousel-wrapper {
     display: flex;
     align-items: center;
@@ -93,10 +83,8 @@
   .lb-carousel-track {
     display: flex;
     transition: transform var(--lb-transition);
-    will-change: transform;
   }
 
-  /* ---- Individual Card ---- */
   .lb-card {
     min-width: 100%;
     box-sizing: border-box;
@@ -110,7 +98,6 @@
     text-align: center;
   }
 
-  /* ---- Stars / Hearts ---- */
   .lb-rating {
     display: flex;
     justify-content: center;
@@ -120,10 +107,8 @@
     min-height: 26px;
   }
   .lb-star { color: var(--lb-green); }
-  .lb-half-star { color: var(--lb-green); }
   .lb-heart { color: var(--lb-orange); font-size: 18px; }
 
-  /* ---- Review text ---- */
   .lb-review-text {
     font-family: var(--lb-font-body);
     font-size: clamp(15px, 2vw, 18px);
@@ -134,7 +119,6 @@
   .lb-review-text::before { content: '\201C'; }
   .lb-review-text::after  { content: '\201D'; }
 
-  /* ---- Reviewer name ---- */
   .lb-reviewer {
     font-family: var(--lb-font-ui);
     font-size: 13px;
@@ -149,19 +133,14 @@
     padding-bottom: 1px;
     transition: color 0.2s, border-color 0.2s;
   }
-  .lb-reviewer a:hover {
-    color: var(--lb-green);
-    border-color: var(--lb-green);
-  }
+  .lb-reviewer a:hover { color: var(--lb-green); border-color: var(--lb-green); }
 
-  /* ---- Arrows ---- */
   .lb-arrow {
     flex-shrink: 0;
     background: none;
     border: 1.5px solid rgba(0,0,0,0.18);
     border-radius: 50%;
-    width: 44px;
-    height: 44px;
+    width: 44px; height: 44px;
     font-size: 18px;
     cursor: pointer;
     color: var(--lb-text);
@@ -170,17 +149,9 @@
     justify-content: center;
     transition: background 0.2s, border-color 0.2s, color 0.2s;
   }
-  .lb-arrow:hover {
-    background: var(--lb-green);
-    border-color: var(--lb-green);
-    color: #fff;
-  }
-  .lb-arrow:disabled {
-    opacity: 0.25;
-    cursor: default;
-  }
+  .lb-arrow:hover { background: var(--lb-green); border-color: var(--lb-green); color: #fff; }
+  .lb-arrow:disabled { opacity: 0.25; cursor: default; }
 
-  /* ---- Dots ---- */
   .lb-dots {
     display: flex;
     justify-content: center;
@@ -188,21 +159,15 @@
     margin-top: 24px;
   }
   .lb-dot {
-    width: 7px;
-    height: 7px;
+    width: 7px; height: 7px;
     border-radius: 50%;
     background: rgba(0,0,0,0.18);
-    border: none;
-    padding: 0;
+    border: none; padding: 0;
     cursor: pointer;
     transition: background 0.2s, transform 0.2s;
   }
-  .lb-dot.active {
-    background: var(--lb-green);
-    transform: scale(1.3);
-  }
+  .lb-dot.active { background: var(--lb-green); transform: scale(1.3); }
 
-  /* ---- Loading / Error states ---- */
   .lb-loading, .lb-error {
     min-width: 100%;
     text-align: center;
@@ -212,7 +177,6 @@
     color: var(--lb-subtext);
   }
 
-  /* ---- Mobile ---- */
   @media (max-width: 600px) {
     .lb-card { padding: 32px 24px 28px; }
     .lb-arrow { width: 36px; height: 36px; font-size: 15px; }
@@ -221,57 +185,45 @@
 
 <script>
 (function() {
-  // ============================================================
-  // 👇 REPLACE THIS with your published Google Sheet CSV URL
-  // File > Share > Publish to web > Reviews sheet > CSV
-  // ============================================================
-  const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQy1qjeHwi4z5Kap2O7zVAqx4zIL9gSTmfZOwqptpDKM826EOboP1jH3OHRW78oyTy7aN9ZKkTbHCrk/pub?gid=84309440&single=true&output=csv";
 
-  // How many characters before a review gets truncated with "..."
+  // 👇 Paste your published Google Sheet CSV URL here
+  const SHEET_CSV_URL = "YOUR_PUBLISHED_GOOGLE_SHEET_CSV_URL_HERE";
+
   const MAX_CHARS = 280;
 
-  // ---- Helpers ----
-
+  // ---- Render stars + heart ----
   function renderStars(ratingStr) {
-    const rating = parseFloat(ratingStr);
-    if (isNaN(rating) || rating <= 0) return "";
-
-    const full  = Math.floor(rating);
-    const half  = (rating % 1) >= 0.5 ? 1 : 0;
+    const r = parseFloat(ratingStr);
+    if (isNaN(r) || r <= 0) return "";
+    const full = Math.floor(r);
+    const half = (r % 1) >= 0.5 ? "½" : "";
+    const heart = r >= 4.5 ? `<span class="lb-heart">♥</span>` : "";
     let html = "";
-
     for (let i = 0; i < full; i++) html += `<span class="lb-star">★</span>`;
-    if (half)                        html += `<span class="lb-half-star">½</span>`;
-
-    // Letterboxd uses a heart (♥) for films you loved — show it for 5-star or 4.5+ ratings
-    if (rating >= 4.5) html += ` <span class="lb-heart">♥</span>`;
-
-    return html;
+    if (half) html += `<span class="lb-star">${half}</span>`;
+    return html + heart;
   }
 
   function truncate(text, max) {
-    if (!text) return "";
-    text = text.trim();
-    if (text.length <= max) return text;
+    if (!text || text.length <= max) return text;
     return text.slice(0, max).replace(/\s+\S*$/, "") + "…";
   }
 
+  // ---- Simple CSV parser ----
   function parseCSV(text) {
-    // Simple CSV parser that handles quoted fields with commas/newlines
     const rows = [];
-    let row = [], field = "", inQuotes = false;
+    let row = [], field = "", inQ = false;
     for (let i = 0; i < text.length; i++) {
-      const ch = text[i], next = text[i+1];
-      if (inQuotes) {
-        if (ch === '"' && next === '"') { field += '"'; i++; }
-        else if (ch === '"') { inQuotes = false; }
-        else { field += ch; }
+      const c = text[i], n = text[i+1];
+      if (inQ) {
+        if (c === '"' && n === '"') { field += '"'; i++; }
+        else if (c === '"') { inQ = false; }
+        else field += c;
       } else {
-        if (ch === '"') { inQuotes = true; }
-        else if (ch === ',') { row.push(field); field = ""; }
-        else if (ch === '\n') { row.push(field); rows.push(row); row = []; field = ""; }
-        else if (ch === '\r') { /* skip */ }
-        else { field += ch; }
+        if (c === '"') inQ = true;
+        else if (c === ',') { row.push(field); field = ""; }
+        else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ""; }
+        else if (c !== '\r') field += c;
       }
     }
     if (field || row.length) { row.push(field); rows.push(row); }
@@ -288,15 +240,12 @@
     reviews.forEach((r, i) => {
       const card = document.createElement("div");
       card.className = "lb-card";
-
       const stars = renderStars(r.rating);
-      const text  = truncate(r.review, MAX_CHARS);
-
       card.innerHTML = `
         ${stars ? `<div class="lb-rating">${stars}</div>` : ""}
-        <p class="lb-review-text">${text}</p>
+        <p class="lb-review-text">${truncate(r.review, MAX_CHARS)}</p>
         <div class="lb-reviewer">
-          <a href="${r.link || "https://letterboxd.com/film/the-plan-2026/"}" target="_blank" rel="noopener">— ${r.reviewer}</a>
+          <a href="${r.link || 'https://letterboxd.com/film/the-plan-2026/'}" target="_blank" rel="noopener">— ${r.reviewer}</a>
         </div>
       `;
       track.appendChild(card);
@@ -308,81 +257,67 @@
       dotsEl.appendChild(dot);
     });
 
-    // Arrow controls
     let current = 0;
     const total = reviews.length;
-    const prevBtn = document.querySelector(".lb-arrow--prev");
-    const nextBtn = document.querySelector(".lb-arrow--next");
+    const prev = document.querySelector(".lb-arrow--prev");
+    const next = document.querySelector(".lb-arrow--next");
 
     function goTo(idx) {
       current = (idx + total) % total;
       track.style.transform = `translateX(-${current * 100}%)`;
       document.querySelectorAll(".lb-dot").forEach((d, i) =>
-        d.classList.toggle("active", i === current)
-      );
-      prevBtn.disabled = false;
-      nextBtn.disabled = false;
+        d.classList.toggle("active", i === current));
     }
 
-    prevBtn.addEventListener("click", () => goTo(current - 1));
-    nextBtn.addEventListener("click", () => goTo(current + 1));
+    prev.addEventListener("click", () => goTo(current - 1));
+    next.addEventListener("click", () => goTo(current + 1));
 
-    // Auto-advance every 6 seconds
-    let autoTimer = setInterval(() => goTo(current + 1), 6000);
-    document.getElementById("lb-reviews-section").addEventListener("mouseenter", () => clearInterval(autoTimer));
-    document.getElementById("lb-reviews-section").addEventListener("mouseleave", () => {
-      clearInterval(autoTimer);
-      autoTimer = setInterval(() => goTo(current + 1), 6000);
+    // Auto-advance every 6 seconds, pause on hover
+    let timer = setInterval(() => goTo(current + 1), 6000);
+    const section = document.getElementById("lb-reviews-section");
+    section.addEventListener("mouseenter", () => clearInterval(timer));
+    section.addEventListener("mouseleave", () => {
+      clearInterval(timer);
+      timer = setInterval(() => goTo(current + 1), 6000);
     });
 
-    // Touch/swipe support
-    let touchStartX = 0;
-    const trackOuter = document.querySelector(".lb-carousel-track-outer");
-    trackOuter.addEventListener("touchstart", e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-    trackOuter.addEventListener("touchend", e => {
-      const diff = touchStartX - e.changedTouches[0].clientX;
+    // Swipe support
+    let tx = 0;
+    const outer = document.querySelector(".lb-carousel-track-outer");
+    outer.addEventListener("touchstart", e => { tx = e.touches[0].clientX; }, { passive: true });
+    outer.addEventListener("touchend", e => {
+      const diff = tx - e.changedTouches[0].clientX;
       if (Math.abs(diff) > 40) goTo(diff > 0 ? current + 1 : current - 1);
     });
 
     goTo(0);
   }
 
-  // ---- Fetch from Google Sheet ----
-  async function loadReviews() {
+  // ---- Load from Sheet ----
+  async function load() {
     const track = document.getElementById("lbTrack");
 
     if (!SHEET_CSV_URL || SHEET_CSV_URL.includes("YOUR_PUBLISHED")) {
-      track.innerHTML = `<div class="lb-error">⚙️ Please set your Google Sheet CSV URL in the code block.</div>`;
+      track.innerHTML = `<div class="lb-error">⚙️ Add your Google Sheet CSV URL to the code.</div>`;
       return;
     }
 
     try {
       const res = await fetch(SHEET_CSV_URL);
-      if (!res.ok) throw new Error("Sheet fetch failed");
-      const text = await res.text();
-      const rows = parseCSV(text);
+      if (!res.ok) throw new Error("Could not load sheet");
+      const rows = parseCSV(await res.text());
+      if (rows.length < 2) throw new Error("No data");
 
-      if (rows.length < 2) {
-        track.innerHTML = `<div class="lb-error">No reviews found yet.</div>`;
-        return;
-      }
-
-      // Header row: ID, Approved, Reviewer, Rating, Review Text, Letterboxd Link, Review Date, Date Added
-      const headers = rows[0].map(h => h.trim().toLowerCase());
-      const idxApproved = headers.indexOf("approved");
-      const idxReviewer = headers.indexOf("reviewer");
-      const idxRating   = headers.indexOf("rating");
-      const idxReview   = headers.indexOf("review text");
-      const idxLink     = headers.indexOf("letterboxd link");
-
-      const approved = rows.slice(1).filter(r => {
-        return r[idxApproved] && r[idxApproved].trim().toLowerCase() === "yes";
-      }).map(r => ({
-        reviewer: r[idxReviewer] || "Anonymous",
-        rating:   r[idxRating]   || "",
-        review:   r[idxReview]   || "",
-        link:     r[idxLink]     || "",
-      })).filter(r => r.review.length > 0);
+      // Columns: Approved, Reviewer, Rating, Review, Link
+      const approved = rows.slice(1)
+        .filter(r => r[0] && r[0].trim().toLowerCase() === "yes")
+        .map(r => ({
+          reviewer: r[1] || "Anonymous",
+          rating:   r[2] || "",
+          review:   r[3] || "",
+          link:     r[4] || "",
+        }))
+        .filter(r => r.review.length > 0);
 
       if (approved.length === 0) {
         track.innerHTML = `<div class="lb-error">No approved reviews yet.</div>`;
@@ -392,11 +327,10 @@
       buildCarousel(approved);
 
     } catch(e) {
-      console.error(e);
-      track.innerHTML = `<div class="lb-error">Could not load reviews. Check your Sheet URL.</div>`;
+      track.innerHTML = `<div class="lb-error">Could not load reviews — check your Sheet URL.</div>`;
     }
   }
 
-  loadReviews();
+  load();
 })();
 </script>
